@@ -1,0 +1,28 @@
+{
+  "name": "generator-cycle-coffee-hot-reloading",
+  "version": "0.1.0",
+  "description": "A yeoman generator to generate a boilerplate project using cycle.js, coffee-script and with hot reloading support",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jacobbubu/generator-cycle-coffee-hot-reloading"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "yeoman",
+    "gulp",
+    "cycle.js",
+    "coffee-script",
+    "hot-reloading"
+  ],
+  "files": [
+    "app"
+  ],
+  "author": "Rong Shen",
+  "license": "ISC",
+  "dependencies": {
+    "yeoman-generator": "^0.22.4"
+  }
+}
