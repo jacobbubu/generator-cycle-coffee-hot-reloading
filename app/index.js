@@ -1,8 +1,8 @@
-var yeoman = require('yeoman-generator');
+var yeomanBase = require('yeoman-generator').Base;
 
-var ProjectGenerator = yeoman.generators.Base.extend({
+var ProjectGenerator = yeomanBase.extend({
     constructor: function() {
-        yeoman.generators.Base.apply(this, arguments);
+        yeomanBase.apply(this, arguments);
     },
     writing: {
         packagsjson: function() {
@@ -10,7 +10,7 @@ var ProjectGenerator = yeoman.generators.Base.extend({
                 'version': '0.1.0',
                 'dependencies': {},
                 'scripts': {
-                    "start": "NODE_ENV=development gulp",
+                    "start": "NODE_ENV=development gulp --hot",
                     "dev": "NODE_ENV=development gulp build",
                     "prod": "NODE_ENV=production gulp build",
                     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,7 +29,11 @@ var ProjectGenerator = yeoman.generators.Base.extend({
             this.fs.copy(
                 this.templatePath('src/**/*.*'),
                 this.destinationPath('src')
-            )}
+            );
+            // Copy all dotfiles
+            this.copy('.gitignore', '.gitignore');
+            this.copy('.npmignore', '.npmignore');
+        }
     },
     install: function() {
         var done = this.async();
@@ -42,7 +46,7 @@ var ProjectGenerator = yeoman.generators.Base.extend({
             'gulp-uglify',
             'gulp-jade',
             'gulp-stylus',
-            'gulp-minify-css',
+            'gulp-cssnano',
             'gulp-filter',
             'gulp-autoprefixer',
             'gulp-notify',
@@ -59,10 +63,11 @@ var ProjectGenerator = yeoman.generators.Base.extend({
             'watchify',
             'envify',
             'browserify-hmr',
+            'minimist',
             '@cycle/core',
             '@cycle/dom',
             'rx',
-            '--save-dev',
+            '--save-dev'
         ])
         .on('exit', function() {
             done();

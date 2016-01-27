@@ -1,6 +1,6 @@
 {
   "name": "generator-cycle-coffee-hot-reloading",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A yeoman generator to generate a boilerplate project using cycle.js, coffee-script and with hot reloading support",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

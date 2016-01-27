@@ -1,7 +1,7 @@
 browserify          = require 'browserify'
 browserSync         = require('browser-sync').create()
 chalk               = require 'chalk'
-CSSmin              = require 'gulp-minify-css'
+CSSmin              = require 'gulp-cssnano'
 filter              = require 'gulp-filter'
 gulp                = require 'gulp'
 gutil               = require 'gulp-util'
@@ -18,10 +18,12 @@ buffer              = require 'vinyl-buffer'
 size                = require 'gulp-size'
 notify              = require 'gulp-notify'
 hotModuleReloading  = require 'browserify-hmr'
+minimist            = require 'minimist'
 config              = require './config'
 
 process.env.NODE_ENV ?= 'development'
 production   = process.env.NODE_ENV is 'production'
+hotReload    = !!minimist(process.argv[2..])['hot']
 
 distFolder = './dist'
 
@@ -35,7 +37,7 @@ buildScripts = (scriptConfig) ->
         entries: [scriptConfig.source]
         extensions: scriptConfig.extensions
         debug: not production
-        plugin: if production then [] else hotModuleReloading
+        plugin: if hotReload then hotModuleReloading else []
 
     scriptConfig.transforms.forEach (t) -> bundle.transform t
 
@@ -62,7 +64,7 @@ watchScripts = (scriptConfig) ->
         entries: [scriptConfig.source]
         extensions: scriptConfig.extensions
         debug: not production
-        plugin: if production then [] else hotModuleReloading
+        plugin: if hotReload then hotModuleReloading else []
         cache: {}
         packageCache: {}
         fullPaths: true
@@ -133,6 +135,7 @@ gulp.task 'assets', ->
         .pipe gulp.dest config.assets.destination
 
 gulp.task 'watch', ->
+    firstCompile = true
     browserSync.init
         server:
             baseDir: distFolder
@@ -146,8 +149,10 @@ gulp.task 'watch', ->
     gulp.watch config.assets.watch, ['assets']
         .on 'change', browserSync.reload
 
-    # watchScripts(config.scripts).on 'finish', browserSync.reload
-    watchScripts config.scripts
+    watchScripts(config.scripts).on 'finish', ->
+        if firstCompile
+            firstCompile = false
+            browserSync.reload()
 
 gulp.task 'no-js', ['templates', 'styles', 'assets']
 gulp.task 'build', ['scripts', 'no-js']
