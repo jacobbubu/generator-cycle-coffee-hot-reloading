@@ -67,6 +67,7 @@ var ProjectGenerator = yeomanBase.extend({
             '@cycle/core',
             '@cycle/dom',
             'rx',
+            'xstream',
             '--save-dev'
         ])
         .on('exit', function() {
