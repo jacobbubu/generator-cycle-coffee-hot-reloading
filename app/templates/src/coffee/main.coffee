@@ -7,18 +7,14 @@ drivers =
 
 app = ({DOM}) ->
     DOM: Observable.just div '.hello-world', [
-        span 'Change me here!'
+        span 'Change me in "src/coffee/main.coffee"'
         img
-            src: 'images/coffeeCup.svg'
-            style:
-                width: '1rem'
-                height: '1rem'
+            attrs:
+                src: 'http://localhost:3000/images/coffeeCup.svg'
+                style: "width: 1em; height: 1em; padding-left: 0.2em"
     ]
 
-{sinks, sources} = run app, drivers
+run app, drivers
 
 if module.hot
     module.hot.accept()
-    module.hot.dispose ->
-        sinks.dispose()
-        sources.dispose()
