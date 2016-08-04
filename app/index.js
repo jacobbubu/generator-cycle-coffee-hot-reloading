@@ -5,7 +5,7 @@ var ProjectGenerator = yeomanBase.extend({
         yeomanBase.apply(this, arguments);
     },
     writing: {
-        packagsjson: function() {
+        packagejson: function() {
             var pkg = {
                 'version': '0.1.0',
                 'dependencies': {},
