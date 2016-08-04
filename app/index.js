@@ -30,9 +30,16 @@ var ProjectGenerator = yeomanBase.extend({
                 this.templatePath('src/**/*.*'),
                 this.destinationPath('src')
             );
-            // Copy all dotfiles
-            this.copy('.gitignore', '.gitignore');
-            this.copy('.npmignore', '.npmignore');
+
+            this.fs.copy(
+                this.templatePath('gitignore'),
+                this.destinationPath('.gitignore')
+            );
+
+            this.fs.copy(
+                this.templatePath('.npmignore'),
+                this.destinationPath('.npmignore')
+            );
         }
     },
     install: function() {
